@@ -1,0 +1,71 @@
+﻿@model IEnumerable<MongoDBCRUD.Models.Alumno>
+
+@{
+    ViewData["Title"] = "Lista de Alumnos";
+}
+
+<h1>Lista de Alumnos</h1>
+
+<p>
+    <a class="btn btn-primary" asp-action="Create">Crear Alumno</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Nombres
+            </th>
+            <th>
+                Apellido Paterno
+            </th>
+            <th>
+                Apellido Materno
+            </th>
+            <th>
+                Sexo
+            </th>
+            <th>
+                Fecha de nacimiento
+            </th>
+            <th>
+                Nota
+            </th>
+            <th>
+                Turno
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.nombres)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.apePat)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.apeMat)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.sexo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fecNac)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.nota)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.turno)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.id">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.id">Detalles</a> |
+                <a asp-action="Delete" asp-route-id="@item.id" onclick="return confirm('¿Seguro que desea eliminar?')">Eliminar</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
