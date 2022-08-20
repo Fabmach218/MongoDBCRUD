@@ -13,6 +13,9 @@
     <thead>
         <tr>
             <th>
+
+            </th>
+            <th>
                 Nombres
             </th>
             <th>
@@ -39,6 +42,26 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+
+            @if(item.fotoBase64 == "")
+            {
+                if(item.sexo == "M")
+                {
+                    <img class="rounded" src="data:image/png;base64,@Id.IMG_PERFIL_HOMBRE" width="50" alt="No hay foto"/>
+                }
+                else
+                {
+                    <img class="rounded" src="data:image/png;base64,@Id.IMG_PERFIL_MUJER" width="50" alt="No hay foto"/>
+                }
+            }
+            else
+            {
+                <img class="rounded" src="data:image/png;base64,@item.fotoBase64" width="50" alt="No hay foto"/>
+            }
+
+                
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.nombres)
             </td>

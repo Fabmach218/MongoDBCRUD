@@ -15,6 +15,7 @@ namespace MongoDBCRUD.Models
         public DateTime fecNac { get; set; }
         public double nota { get; set; }
         public string turno { get; set; }
+        public string fotoBase64 { get; set; } = "";
 
     }
 }

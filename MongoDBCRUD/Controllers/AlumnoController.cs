@@ -31,8 +31,21 @@ namespace MongoDBCRUD.Controllers
         // POST: AlumnoController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(IFormCollection collection, List<IFormFile> files)
         {
+
+            string fileBase64 = "";
+
+            foreach (var file in files)
+            {
+                Stream str = file.OpenReadStream();
+                BinaryReader br = new BinaryReader(str);
+                Byte[] fileDet = br.ReadBytes((Int32)str.Length);
+                //curso.archivo = fileDet;
+                //curso.nombrefile = Path.GetFileName(file.FileName);
+                fileBase64 = Convert.ToBase64String(fileDet);
+            }
+
             try
             {
 
@@ -44,7 +57,8 @@ namespace MongoDBCRUD.Controllers
                     sexo = collection["sexo"],
                     fecNac = DateTime.Parse(collection["fecNac"]),
                     nota = double.Parse(collection["nota"]),
-                    turno = collection["turno"]
+                    turno = collection["turno"],
+                    fotoBase64 = fileBase64
                 };
 
                 alumnoDAO.InsertAlumno(alumno);
@@ -67,10 +81,23 @@ namespace MongoDBCRUD.Controllers
         // POST: AlumnoController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(string id, IFormCollection collection)
+        public ActionResult Edit(string id, IFormCollection collection, List<IFormFile> files)
         {
             try
             {
+
+                string fileBase64 = "";
+
+                foreach (var file in files)
+                {
+                    Stream str = file.OpenReadStream();
+                    BinaryReader br = new BinaryReader(str);
+                    Byte[] fileDet = br.ReadBytes((Int32)str.Length);
+                    //curso.archivo = fileDet;
+                    //curso.nombrefile = Path.GetFileName(file.FileName);
+                    fileBase64 = Convert.ToBase64String(fileDet);
+                }
+
                 var alumno = new Alumno()
                 {
                     id = new ObjectId(id),
@@ -80,7 +107,8 @@ namespace MongoDBCRUD.Controllers
                     sexo = collection["sexo"],
                     fecNac = DateTime.Parse(collection["fecNac"]),
                     nota = double.Parse(collection["nota"]),
-                    turno = collection["turno"]
+                    turno = collection["turno"],
+                    fotoBase64 = fileBase64
                 };
 
                 alumnoDAO.UpdateAlumno(alumno);

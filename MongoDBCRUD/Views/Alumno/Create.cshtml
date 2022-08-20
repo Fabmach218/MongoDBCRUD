@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="nombres" class="control-label">Nombres</label>
@@ -57,6 +57,14 @@
                 <span asp-validation-for="turno" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label for="file" class="control-label">Foto</label>
+                <input id="img-selector" type="file" class="form-control" for="file" name="files" accept="image/png, image/jpg, image/jpeg" onchange="mostrarFoto(event);"/>
+                <span for="file" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <img id="img-preview" width="200"/>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
@@ -69,4 +77,16 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+    
+        function mostrarFoto(e){
+
+            var image = URL.createObjectURL(e.target.files[0]);
+            document.getElementById('img-preview').src = image;
+
+        }
+    
+    </script>
+
 }
