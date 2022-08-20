@@ -17,9 +17,10 @@ namespace MongoDBCRUD.Controllers
         }
 
         // GET: AlumnoController/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(string id)
         {
-            return View();
+            var alumno = alumnoDAO.GetAlumnoById(id);
+            return View(alumno);
         }
 
         // GET: AlumnoController/Create
