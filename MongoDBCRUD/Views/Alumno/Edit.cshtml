@@ -12,7 +12,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit" enctype="multipart/form-data">
+        <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="nombres" class="control-label">Nombres</label>
@@ -59,35 +59,6 @@
                 <span asp-validation-for="turno" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label for="file" class="control-label">Foto</label>
-                <input id="img-selector-edit" type="file" class="form-control" for="file" name="files" accept="image/png, image/jpg, image/jpeg" onchange="mostrarFotoEdit(event);"/>
-                <span for="file" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-            @if(Model.fotoBase64 == "")
-            {
-                
-                if(Model.sexo == "M")
-                {
-                    <img id="img-preview-edit" width="200" src="data:image/png;base64,@Id.IMG_PERFIL_HOMBRE"/>
-                }
-                else
-                {
-                    <img id="img-preview-edit" width="200" src="data:image/png;base64,@Id.IMG_PERFIL_MUJER"/>
-                }
-
-            }
-            else
-            {
-                <img id="img-preview-edit" width="200" src="data:image/png;base64,@Model.fotoBase64"/>
-            }
-
-                <a class="btn btn-success" onclick="descargarImagenEdit();">Descargar imagen</a>
-                <a class="btn btn-danger" onclick="eliminarImagenEdit();">Eliminar imagen</a>
-
-            </div>
-            <div class="form-group">
                 <input type="submit" value="Editar" class="btn btn-primary" />
             </div>
         </form>
@@ -115,7 +86,7 @@
 
         }
 
-        function descargarImagenEdit(){
+        function descargarImagen(){
 
             var downloadLink = document.getElementById('img-preview-edit').getAttribute('src');
             var fileName = 'img_' + '@Model.id';
@@ -124,20 +95,6 @@
             downloadButton.href = downloadLink;
             downloadButton.download = fileName;
             downloadButton.click();
-
-        }
-
-        function eliminarImagenEdit(){
-
-            document.getElementById('img-selector-edit').value = '';
-
-            if('@Model.sexo' == 'M'){
-                document.getElementById('img-preview-edit').setAttribute('src','data:image/png;base64,' + fotoHombre);
-                console.log('@Id.IMG_PERFIL_HOMBRE');
-            }else{
-                document.getElementById('img-preview-edit').setAttribute('src','data:image/png;base64,' + fotoMujer);
-                console.log('@Id.IMG_PERFIL_MUJER');
-            }
 
         }
 

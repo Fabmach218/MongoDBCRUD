@@ -10,17 +10,38 @@
             @if(Model.fotoBase64 == ""){
                 if(Model.sexo == "M")
                 {
-                    <img class="rounded" src="data:image/png;base64,@Id.IMG_PERFIL_HOMBRE" width="300" />
+                    <img class="rounded" id="img-usuario" src="data:image/png;base64,@Id.IMG_PERFIL_HOMBRE" width="300" />
                 }
                 else
                 {
-                    <img class="rounded" src="data:image/png;base64,@Id.IMG_PERFIL_MUJER" width="300" />
+                    <img class="rounded" id="img-usuario" src="data:image/png;base64,@Id.IMG_PERFIL_MUJER" width="300" />
                 }
             }
             else
             {
-                <img class="rounded" src="data:image/png;base64,@Model.fotoBase64" width="300" />
+                <img class="rounded" id="img-usuario" src="data:image/png;base64,@Model.fotoBase64" width="300" />
             }
+
+            <a class="btn btn-success" onclick="descargarImagen();">Descargar imagen</a>
+
+            <form asp-action="EditFotoAlumno" asp-route-id="@Model.id" enctype="multipart/form-data">
+
+                <div class="form-group">
+                    <input id="img-selector" type="file" class="form-control" for="file" name="files" accept="image/png, image/jpg, image/jpeg" onchange="mostrarFoto(event);" required/>
+                </div>
+
+                <div class="form-group">
+                    <img id="img-preview" width="200"/>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Editar imagen" class="btn btn-primary" />
+                </div>
+
+            </form>
+
+            <a class="btn btn-danger" asp-action="DeleteFotoAlumno" asp-route-id="@Model.id" onclick="return confirm('¿Seguro que desea eliminar la foto?')">Eliminar imagen</a>
+
         </div>
 
         <div class="col-lg-6">
@@ -68,7 +89,7 @@
             </div>
             <div class="row">
                 <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.id">Editar</a>
-                <a class="btn btn-danger" asp-action="Eliminar" asp-route-id="@Model.id" onclick="return confirm('¿Seguro que desea eliminar?')">Eliminar</a>
+                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.id" onclick="return confirm('¿Seguro que desea eliminar?')">Eliminar</a>
             </div>
     
         </div>
@@ -76,3 +97,36 @@
     </div>
 
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+
+        function validarImagen(){
+
+        }
+
+        function descargarImagen(){
+
+            var downloadLink = document.getElementById('img-usuario').getAttribute('src');
+            var fileName = 'img_' + '@Model.id';
+            var downloadButton = document.createElement('a');
+
+            downloadButton.href = downloadLink;
+            downloadButton.download = fileName;
+            downloadButton.click();
+
+        }
+
+        function mostrarFoto(e){
+
+            document.getElementById('img-preview').src = '';
+            var image = URL.createObjectURL(e.target.files[0]);
+            document.getElementById('img-preview').src = image;
+
+        }
+    
+    </script>
+
+}

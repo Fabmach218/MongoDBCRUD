@@ -26,6 +26,28 @@ namespace MongoDBCRUD.Repositories
             Collection.ReplaceOneAsync(filter, alumno);
         }
 
+        public void UpdateFotoAlumno(string id, string foto)
+        {
+
+            var alumno = GetAlumnoById(id);
+            alumno.fotoBase64 = foto;
+
+            var filter = Builders<Alumno>.Filter.Eq(a => a.id, alumno.id);
+
+            Collection.ReplaceOneAsync(filter, alumno);
+
+        }
+
+        public void DeleteFotoAlumno(string id)
+        {
+            var alumno = GetAlumnoById(id);
+            alumno.fotoBase64 = "";
+
+            var filter = Builders<Alumno>.Filter.Eq(a => a.id, alumno.id);
+
+            Collection.ReplaceOneAsync(filter, alumno);
+        }
+
         public void DeleteAlumno(string id)
         {
             var filter = Builders<Alumno>.Filter.Eq(a => a.id, new ObjectId(id));

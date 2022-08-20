@@ -82,22 +82,10 @@ namespace MongoDBCRUD.Controllers
         // POST: AlumnoController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(string id, IFormCollection collection, List<IFormFile> files)
+        public ActionResult Edit(string id, IFormCollection collection)
         {
             try
             {
-
-                string fileBase64 = "";
-
-                foreach (var file in files)
-                {
-                    Stream str = file.OpenReadStream();
-                    BinaryReader br = new BinaryReader(str);
-                    Byte[] fileDet = br.ReadBytes((Int32)str.Length);
-                    //curso.archivo = fileDet;
-                    //curso.nombrefile = Path.GetFileName(file.FileName);
-                    fileBase64 = Convert.ToBase64String(fileDet);
-                }
 
                 var alumno = new Alumno()
                 {
@@ -109,7 +97,7 @@ namespace MongoDBCRUD.Controllers
                     fecNac = DateTime.Parse(collection["fecNac"]),
                     nota = double.Parse(collection["nota"]),
                     turno = collection["turno"],
-                    fotoBase64 = fileBase64
+                    fotoBase64 = alumnoDAO.GetAlumnoById(id).fotoBase64
                 };
 
                 alumnoDAO.UpdateAlumno(alumno);
@@ -120,6 +108,43 @@ namespace MongoDBCRUD.Controllers
             {
                 return View();
             }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditFotoAlumno(string id, List<IFormFile> files)
+        {
+
+            var alumno = alumnoDAO.GetAlumnoById(id);
+            string fileBase64 = "";
+
+            foreach (var file in files)
+            {
+                Stream str = file.OpenReadStream();
+                BinaryReader br = new BinaryReader(str);
+                Byte[] fileDet = br.ReadBytes((Int32)str.Length);
+                //curso.archivo = fileDet;
+                //curso.nombrefile = Path.GetFileName(file.FileName);
+                fileBase64 = Convert.ToBase64String(fileDet);
+            }
+
+            try
+            {
+                alumnoDAO.UpdateFotoAlumno(id, fileBase64);
+                
+                return RedirectToAction("Details", new { id = id });
+            }
+            catch 
+            {
+                return RedirectToAction("Details", new { id = id });
+            }
+
+        }
+
+        public ActionResult DeleteFotoAlumno(string id)
+        {
+            alumnoDAO.DeleteFotoAlumno(id);
+            return RedirectToAction("Details", new { id = id });
         }
 
         // GET: AlumnoController/Delete/5
