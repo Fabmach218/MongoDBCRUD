@@ -13,6 +13,9 @@
     <thead>
         <tr>
             <th>
+
+            </th>
+            <th>
                 Nombre
             </th>
             <th>
@@ -26,7 +29,27 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
+         <tr>
+            <td>
+                @switch (@item.extension)
+                {
+                    case "png":<img src="~/ico/png.png" height="40"> break;
+                    case "pdf": <img src="~/ico/pdf.png" height="40"> break;
+                    case "doc":
+                    case "docx": <img src="~/ico/doc.png" height="40"> break;
+                    case "xls":
+                    case "xlsx": <img src="~/ico/xls.png" height="40"> break;
+                    case "ppt":
+                    case "pptx": <img src="~/ico/ppt.png" height="40"> break;
+                    case "jpg":
+                    case "jpeg": <img src="~/ico/jpg.png" height="40"> break;
+                    case "zip": <img src="~/ico/zip.png" height="40"> break;
+                    case "rar": <img src="~/ico/rar.png" height="40"> break;
+                    case "mp3": <img src="~/ico/mp3.png" height="40"> break;
+                    case "mp4": <img src="~/ico/mp4.png" height="40"> break;
+                    default : <img src="~/ico/default.png" height="40"> break;
+                }
+            </td>
             <td>
                 @item.nombre
             </td>
